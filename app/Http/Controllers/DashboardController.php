@@ -26,10 +26,13 @@ class DashboardController extends Controller
 
     public function index()
     {
+        // $countKainMasukToday = Kain::whereDate('tgl_masuk', Carbon::today())->count();
+        // dd($countKainMasukToday);
         return view('dashboard.index', [
             'title'             => 'Dashboard',
             'countKain'         => Kain::all()->count(),
-            'countKainToday'    => Kain::whereDate('tgl_masuk', Carbon::today())->count(),
+            'kainLatest'        => Kain::latest()->take(5)->get(),
+            'countKainMasukToday'    => Kain::whereDate('tgl_masuk', Carbon::today())->count(),
             'countPackingList'  => PackingList::whereDate('tanggal', Carbon::today())->count(),
             // 'countKainToday'    => Kain::all()->count(),
             // 'countPackingList'  => PackingList::all()->count(),

@@ -22,6 +22,11 @@
 								<tr>
 									<th>Nama Supplier</th>
 									<th>Keterangan</th>
+									{{-- @if (in_array(Auth::user()->name, ['Nickel Chainani', 'Raja Chainani', 'Sanjay Singh']))
+										<th>Keterangan</th>
+									@else
+										-
+									@endif --}}
 									<th>Input By</th>
 									<th>Update By</th>
 									<th>Action</th>
@@ -32,6 +37,11 @@
 									<tr>
 										<td>{{ $item->nama_supplier }}</td>
 										<td>{{ $item->keterangan }}</td>
+										{{-- @if (in_array(Auth::user()->name, ['Nickel Chainani', 'Raja Chainani', 'Sanjay Singh']))
+											<td>{{ $item->keterangan }}</td>
+										@else
+											-
+										@endif --}}
 										<td>{{ $item->input_by }}</td>
 										<td>{{ $item->update_by }}</td>
 										<td>

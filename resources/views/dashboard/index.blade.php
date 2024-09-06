@@ -36,9 +36,11 @@
 				<div class="card-body">
 					<div class="card-title d-flex align-items-start justify-content-between">
 						<div class="avatar flex-shrink-0">
-							<span class="avatar-initial rounded bg-label-primary">
-								<i class="bx bx-right-arrow-alt"></i>
-							</span>
+							<a href="/kain">
+								<span class="avatar-initial rounded bg-label-primary">
+									<i class="bx bx-right-arrow-alt"></i>
+								</span>
+							</a>
 						</div>
 						<div class="dropdown">
 							<button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -46,12 +48,12 @@
 								<i class="bx bx-dots-vertical-rounded"></i>
 							</button>
 							<div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-								<a class="dropdown-item" href="/packingList">View More</a>
+								<a class="dropdown-item" href="/kain">View More</a>
 							</div>
 						</div>
 					</div>
 					<span class="fw-medium d-block mb-1">Kain Masuk Hari ini</span>
-					<h3 class="card-title mb-2">{{ $countKainToday }}</h3>
+					<h3 class="card-title mb-2">{{ $countKainMasukToday }}</h3>
 					{{-- <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i></small> --}}
 				</div>
 			</div>
@@ -78,6 +80,163 @@
 					<span class="fw-medium d-block mb-1">Kain Keluar Hari ini</span>
 					<h3 class="card-title mb-2">{{ $countPackingList }}</h3>
 					{{-- <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i></small> --}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 mb-1">
+			<div class="card h-100">
+				<div class="card-header d-flex align-items-center justify-content-between pb-3 bg-primary text-white">
+					<div class="card-title mb-0">
+						<h5 class="m-0 me-2 text-white">Data Kain Masuk Terbaru</h5>
+					</div>
+					<div class="dropdown">
+						<button class="btn p-0 text-white" type="button" id="orederStatistics" data-bs-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">
+							<i class="bx bx-dots-vertical-rounded"></i>
+						</button>
+						<div class="dropdown-menu dropdown-menu-end" aria-labelledby="orederStatistics">
+							<a class="dropdown-item" href="/kain">View More</a>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="d-flex justify-content-between align-items-center mb-3" style="position: relative;">
+						<div class="d-flex flex-column align-items-center gap-1">
+
+						</div>
+						<div class="resize-triggers">
+							<div class="expand-trigger">
+								<div style="width: 318px; height: 139px;"></div>
+							</div>
+							<div class="contract-trigger"></div>
+						</div>
+					</div>
+					<div class="row">
+						<table id="table" class="table table-hover w-100" style="width: 100%">
+							<caption class="ms-4">
+
+							</caption>
+							<thead class="bg-warning mt-5">
+								<tr>
+									<th class="text-white">Nama Kain</th>
+									<th class="text-white">Harga P</th>
+									<th class="text-white">Supplier</th>
+									<th class="text-white">Pcs</th>
+									<th class="text-white">Yard</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach ($kainLatest as $index => $item)
+									<tr>
+										<td>
+											{{ $item->nama_kain }}
+											<p>
+												<small>
+													<strong>
+														{{ $item->kode_desain }}
+													</strong>
+												</small>
+											</p>
+										</td>
+										<td>
+											<strong>
+												{{ $item->harga }}
+											</strong>
+										</td>
+										<td>
+											<strong>
+												{{ $item->supplier->nama_supplier }}
+											</strong>
+										</td>
+										<td>
+											@php
+												$totalReadyPcs = 0;
+												$warnaCount = 0;
+												$totalYard = 0; // Initialize total yard
+
+												foreach ($item->warnas as $warna) {
+												    $totalReadyPcs += $warna->total_ready_pcs;
+
+												    // Sum up the yards for each warna's pcs
+												    foreach ($warna->pcs as $pcs) {
+												        $totalYard += $pcs->yard;
+												    }
+
+												    if ($warna->total_ready_pcs > 0) {
+												        $warnaCount++;
+												    }
+												}
+
+												echo $totalReadyPcs;
+											@endphp
+											Pcs</strong> ( {{ $warnaCount }} Warna)
+										</td>
+										<td>
+											<strong>{{ $totalYard }}</strong> Yard
+										</td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 mb-1">
+			<div class="card h-100">
+				<div class="card-header d-flex align-items-center justify-content-between pb-3 bg-primary text-white">
+					<div class="card-title mb-0">
+						<h5 class="m-0 me-2 text-white">Data Kain Keluar Terbaru</h5>
+					</div>
+					<div class="dropdown">
+						<button class="btn p-0 text-white" type="button" id="orederStatistics" data-bs-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">
+							<i class="bx bx-dots-vertical-rounded"></i>
+						</button>
+						<div class="dropdown-menu dropdown-menu-end" aria-labelledby="orederStatistics">
+							<a class="dropdown-item" href="/packingList">Select All</a>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="d-flex justify-content-between align-items-center mb-3" style="position: relative;">
+						<div class="d-flex flex-column align-items-center gap-1">
+
+						</div>
+						<div class="resize-triggers">
+							<div class="expand-trigger">
+								<div style="width: 318px; height: 139px;"></div>
+							</div>
+							<div class="contract-trigger"></div>
+						</div>
+					</div>
+					<div class="row">
+						@foreach ($packingList as $pl)
+							<div class="col-sm-3">
+								<p
+									class="@if ($pl->jenis == 'Brocade/Tule') bg-success text-black fw-bold text-center
+        									@elseif($pl->jenis == 'Basic') bg-primary text-white fw-bold text-center
+        									@elseif($pl->jenis == 'Gent') bg-danger text-white fw-bold text-center
+        									@elseif($pl->jenis == 'Grosir') bg-info text-white fw-bold text-center
+        									@elseif($pl->jenis == 'Cabang') bg-warning text-white fw-bold text-center
+        									@elseif($pl->jenis == 'Ladys') bg-dark text-white fw-bold text-center @endif">
+									{{ $pl->jenis }}
+								</p>
+							</div>
+							<div class="col-sm-3">
+								<p class="mb-0">{{ $pl->packingListNo }}</p>
+							</div>
+							<div class="col-sm-3">
+								<p class="">{{ $pl->nama_pengambil }}</p>
+							</div>
+							<div class="col-sm-3">
+								<p class="">{{ $pl->total_pcs }} Pcs</p>
+							</div>
+							<hr>
+						@endforeach
+					</div>
 				</div>
 			</div>
 		</div>
@@ -127,7 +286,7 @@
 										<i class="bx bx-dots-vertical-rounded"></i>
 									</button>
 									<div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-										<a class="dropdown-item" href="/packingList">View More</a>
+										<a class="dropdown-item" href="/supplier">View More</a>
 									</div>
 								</div>
 							</div>
@@ -152,12 +311,12 @@
 										<i class="bx bx-dots-vertical-rounded"></i>
 									</button>
 									<div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-										<a class="dropdown-item" href="/packingList">View More</a>
+										<a class="dropdown-item" href="/bukutamu">View More</a>
 									</div>
 								</div>
 							</div>
 							<span class="fw-medium d-block mb-1">Buku Tamu</span>
-							<h3 class="card-title mb-2">{{ $countSupplier }}</h3>
+							<h3 class="card-title mb-2">{{ $countBukutamu }}</h3>
 							{{-- <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i></small> --}}
 						</div>
 					</div>
@@ -185,64 +344,6 @@
 							<h3 class="card-title mb-2">{{ $countBukutamu }}</h3>
 							{{-- <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i></small> --}}
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-6 mb-1">
-			<div class="card h-100">
-				<div class="card-header d-flex align-items-center justify-content-between pb-3 bg-primary text-white">
-					<div class="card-title mb-0">
-						<h5 class="m-0 me-2 text-white">Data Kain Keluar Terbaru</h5>
-					</div>
-					<div class="dropdown">
-						<button class="btn p-0 text-white" type="button" id="orederStatistics" data-bs-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false">
-							<i class="bx bx-dots-vertical-rounded"></i>
-						</button>
-						<div class="dropdown-menu dropdown-menu-end" aria-labelledby="orederStatistics">
-							<a class="dropdown-item" href="javascript:void(0);">Select All</a>
-							<a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-							<a class="dropdown-item" href="javascript:void(0);">Share</a>
-						</div>
-					</div>
-				</div>
-				<div class="card-body">
-					<div class="d-flex justify-content-between align-items-center mb-3" style="position: relative;">
-						<div class="d-flex flex-column align-items-center gap-1">
-
-						</div>
-						<div class="resize-triggers">
-							<div class="expand-trigger">
-								<div style="width: 318px; height: 139px;"></div>
-							</div>
-							<div class="contract-trigger"></div>
-						</div>
-					</div>
-					<div class="row">
-						@foreach ($packingList as $pl)
-							<div class="col-sm-3">
-								<p
-									class="@if ($pl->jenis == 'Brocade/Tule') bg-success text-black fw-bold text-center
-        									@elseif($pl->jenis == 'Basic') bg-primary text-white fw-bold text-center
-        									@elseif($pl->jenis == 'Gent') bg-danger text-white fw-bold text-center
-        									@elseif($pl->jenis == 'Grosir') bg-info text-white fw-bold text-center
-        									@elseif($pl->jenis == 'Cabang') bg-warning text-white fw-bold text-center
-        									@elseif($pl->jenis == 'Ladys') bg-dark text-white fw-bold text-center @endif">
-									{{ $pl->jenis }}
-								</p>
-							</div>
-							<div class="col-sm-3">
-								<p class="mb-0">{{ $pl->packingListNo }}</p>
-							</div>
-							<div class="col-sm-3">
-								<p class="">{{ $pl->nama_pengambil }}</p>
-							</div>
-							<div class="col-sm-3">
-								<p class="">{{ $pl->total_pcs }} Pcs</p>
-							</div>
-							<hr>
-						@endforeach
 					</div>
 				</div>
 			</div>

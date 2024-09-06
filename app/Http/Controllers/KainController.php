@@ -52,7 +52,7 @@ class KainController extends Controller
 
     public function index()
     {
-        $kain = Kain::all();
+        $kain = Kain::orderBy('created_at', 'desc')->get();
 
         return view('kain.index', [
             'title'     => 'Kain',
