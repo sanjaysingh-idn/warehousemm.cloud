@@ -450,17 +450,15 @@ class KainController extends Controller
     public function cetakBarcode($id)
     {
         $kain = Kain::findOrFail($id);
-        $kain->each(function ($item) {
-            $item->warnas = $item->warnas->sortBy('nama_warna');
 
-            // Count total ready Pcs for each color
-            $item->warnas->each(function ($warna) {
-                // Use filter instead of where to check for null status
-                $warna->total_ready_pcs = $warna->pcs->filter(function ($pc) {
-                    return is_null($pc->status);  // Check for null status explicitly
-                })->count();
-            });
-        });
+        // Sort the 'warnas' by 'nama_warna'
+        $kain->warnas = $kain->warnas->sortBy('nama_warna');
+
+        // Iterate through each 'warna' and count the total_ready_pcs
+        foreach ($kain->warnas as $warna) {
+            // Count pcs with null status
+            $warna->total_ready_pcs = $warna->pcs->whereNull('status')->count();
+        }
 
         // dd($kain);
         return view('kain.barcode', [

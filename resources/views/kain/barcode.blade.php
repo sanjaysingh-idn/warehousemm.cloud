@@ -158,6 +158,8 @@
 														$qrCodeData =
 														    "\nID Kain: " .
 														    $kain->id .
+														    '-' .
+														    $kain->supplier->nama_supplier .
 														    "\nNama Kain: " .
 														    $kain->nama_kain .
 														    "\nKode Desain: " .
