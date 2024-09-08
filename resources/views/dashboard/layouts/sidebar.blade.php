@@ -58,6 +58,14 @@
 		</li>
 
 		<li
+			class="menu-item {{ request()->is('stoklama', 'stoklama/*') && !request()->is('stoklama/create', 'stoklama/keluar', 'stoklama/keluar/create') ? 'active open' : '' }}">
+			<a href="/stoklama" class="menu-link">
+				<i class='menu-icon tf-icons bx bxl-medium-old'></i>
+				<div>Kain Stok Lama</div>
+			</a>
+		</li>
+
+		<li
 			class="menu-item {{ request()->is('packingList', 'packingList/*') && !request()->is('packingList/create', 'packingList/createManual') ? 'active open' : '' }}">
 			<a href="/packingList" class="menu-link">
 				<i class='menu-icon tf-icons bx bx-list-check'></i>
@@ -89,12 +97,12 @@
 				<div>Koordinator</div>
 			</a>
 		</li>
-		{{-- <li class="menu-item {{ request()->is('driver') ? 'active open' : '' }}">
+		<li class="menu-item {{ request()->is('driver') ? 'active open' : '' }}">
 			<a href="/driver" class="menu-link">
 				<i class='menu-icon tf-icons bx bxs-truck'></i>
 				<div>Driver</div>
 			</a>
-		</li> --}}
+		</li>
 
 		<li class="menu-header small text-uppercase">
 			<span class="menu-header-text">Laporan</span>

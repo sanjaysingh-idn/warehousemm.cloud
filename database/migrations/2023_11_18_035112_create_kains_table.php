@@ -30,6 +30,7 @@ class CreateKainsTable extends Migration
             $table->string('update_by')->nullable();
             $table->dateTime('update_at')->nullable();
             $table->string('keterangan')->nullable();
+            $table->string('stok_lama')->nullable();
             $table->integer('status')->nullable();
             $table->timestamps();
         });

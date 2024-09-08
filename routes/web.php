@@ -1,20 +1,23 @@
 <?php
 
 use App\Models\Bukutamu;
+use App\Models\Pengajuan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KainController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WarnaController;
 use App\Http\Controllers\DesainController;
+use App\Http\Controllers\DriverController;
 use App\Http\Controllers\BukutamuController;
 use App\Http\Controllers\SecurityController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\KoordinatorController;
+use App\Http\Controllers\MobilController;
 use App\Http\Controllers\PackingListController;
-use App\Models\Pengajuan;
+use App\Http\Controllers\SopirController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +56,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('kain', KainController::class);
     Route::resource('warna', WarnaController::class);
+    Route::resource('driver', DriverController::class);
+    Route::resource('sopir', SopirController::class);
+    Route::resource('mobil', MobilController::class);
     Route::get('/kain/{kain}/warna', [WarnaController::class, 'index'])->name('kain.warna.list');
     Route::get('/kain/{kain}/barcode', [KainController::class, 'cetakBarcode'])->name('kain.barcode');
     Route::post('/kain/search', [KainController::class, 'searchById'])->name('kain.search');
@@ -85,6 +91,7 @@ Route::middleware(['auth'])->group(function () {
 
     // PDF
     Route::get('/laporanTamu', [BukutamuController::class, 'laporan'])->name('laporanTamu');
+    Route::get('/stoklama', [KainController::class, 'stoklama'])->name('stoklama');
     Route::post('/laporanTamu/generate-report-tamu', [BukutamuController::class, 'generateTamuReport'])->name('laporanTamu.generate-report-tamu');
     Route::get('/generate-tamu-pdf', [BukutamuController::class, 'generateTamuReportPDF'])->name('generate-tamu-pdf');
     Route::get('/laporanKain', [KainController::class, 'laporan'])->name('laporanKain');

@@ -30,7 +30,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-6 mb-3">
+							<div class="col-sm-12 mb-3">
 								<label for="lokasi" class="form-label">lokasi</label>
 								<select id="lokasi" class="form-select @error('lokasi') is-invalid @enderror" name="lokasi"
 									data-placeholder="--Pilih Lokasi--" required style="width: 100%">
@@ -39,6 +39,21 @@
 									<option value="Gudang Kartasura">Gudang Kartasura</option>
 								</select>
 								@error('provinsi')
+									<div class="invalid-feedback">
+										{{ $message }}
+									</div>
+								@enderror
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12 mb-3">
+								<label for="stok_lama" class="form-label">Stok Lama</label>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input @error('stok_lama') is-invalid @enderror" id="stok_lama"
+										name="stok_lama" value="STOK LAMA" {{ old('stok_lama') == 'STOK LAMA' ? 'checked' : '' }}>
+									<label class="form-check-label" for="stok_lama">Centang jika ini Stok Lama</label>
+								</div>
+								@error('stok_lama')
 									<div class="invalid-feedback">
 										{{ $message }}
 									</div>
@@ -109,7 +124,8 @@
 								<label for="harga" class="form-label">Harga</label>
 								<div class="input-group input-group-merge">
 									<span class="input-group-text">Rp</span>
-									<input type="number" min="0" class="form-control @error('harga') is-invalid @enderror" name="harga">
+									<input type="number" min="0" class="form-control @error('harga') is-invalid @enderror"
+										name="harga">
 									@error('harga')
 										<div class="invalid-feedback">
 											{{ $message }}
@@ -119,8 +135,8 @@
 							</div>
 							<div class="col-sm-6 mb-3">
 								<label for="satuan" class="form-label">Satuan</label>
-								<input class="form-control @error('satuan') is-invalid @enderror" type="text" id="satuan" name="satuan"
-									value="{{ old('satuan') }}" oninput="this.value = this.value.toUpperCase()" />
+								<input class="form-control @error('satuan') is-invalid @enderror" type="text" id="satuan"
+									name="satuan" value="{{ old('satuan') }}" oninput="this.value = this.value.toUpperCase()" />
 								@error('satuan')
 									<div class="invalid-feedback">
 										{{ $message }}

@@ -35,7 +35,14 @@ class MobilController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        $attr = $request->validate([
+            'nama_mobil'          => 'required',
+        ]);
+
+        Mobil::create($attr);
+
+        return back()->with('message', 'Driver berhasil ditambah');
     }
 
     /**
@@ -80,6 +87,8 @@ class MobilController extends Controller
      */
     public function destroy(Mobil $mobil)
     {
-        //
+        $mobil = Mobil::findOrFail($mobil->id);
+        $mobil->delete();
+        return back()->with('message_delete', 'Mobil berhasil dihapus');
     }
 }

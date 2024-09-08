@@ -57,6 +57,26 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-12 mb-3">
+								<label for="stok_lama" class="form-label">Stok Lama</label>
+								<div class="form-check">
+									<!-- Hidden input to set stok_lama to null if unchecked -->
+									<input type="hidden" name="stok_lama" value="">
+
+									<!-- Checkbox for stok_lama -->
+									<input type="checkbox" class="form-check-input @error('stok_lama') is-invalid @enderror" id="stok_lama"
+										name="stok_lama" value="STOK LAMA"
+										{{ old('stok_lama', $kain->stok_lama ?? '') == 'STOK LAMA' ? 'checked' : '' }}>
+									<label class="form-check-label" for="stok_lama">Centang jika ini Stok Lama</label>
+								</div>
+								@error('stok_lama')
+									<div class="invalid-feedback">
+										{{ $message }}
+									</div>
+								@enderror
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12 mb-3">
 								<label for="nama_kain" class="form-label">Nama Kain</label>
 								<input class="form-control @error('nama_kain') is-invalid @enderror" type="text" id="nama_kain"
 									name="nama_kain" value="{{ $kain->nama_kain }}" />
@@ -100,9 +120,19 @@
 								</div>
 							</div>
 							<div class="col-sm-6 mb-3">
+								<label for="tgl_masuk" class="form-label">Tanggal Masuk</label>
+								<input class="form-control @error('tgl_masuk') is-invalid @enderror" type="date" id="tgl_masuk"
+									name="tgl_masuk" value="{{ old('tgl_masuk', $kain->tgl_masuk ?? '') }}" required />
+								@error('tgl_masuk')
+									<div class="invalid-feedback">
+										{{ $message }}
+									</div>
+								@enderror
+							</div>
+							<div class="col-sm-6 mb-3">
 								<label for="satuan" class="form-label">Satuan</label>
-								<input class="form-control @error('satuan') is-invalid @enderror" type="text" id="satuan" name="satuan"
-									value="{{ $kain->satuan }}" />
+								<input class="form-control @error('satuan') is-invalid @enderror" type="text" id="satuan"
+									name="satuan" value="{{ $kain->satuan }}" />
 								@error('satuan')
 									<div class="invalid-feedback">
 										{{ $message }}

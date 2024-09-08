@@ -17,9 +17,12 @@ class CreateDriversTable extends Migration
             $table->id();
             $table->dateTime('pergi');
             $table->dateTime('pulang')->nullable();
+            $table->string('nama_pembeli')->nullable();
             $table->string('tujuan');
             $table->string('sopir');
+            $table->string('kernet')->nullable();
             $table->string('mobil');
+            $table->string('barang')->nullable();
             $table->string('input_by');
             $table->timestamps();
         });

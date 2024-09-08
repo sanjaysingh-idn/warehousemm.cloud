@@ -52,10 +52,25 @@ class KainController extends Controller
 
     public function index()
     {
-        $kain = Kain::orderBy('created_at', 'desc')->get();
+        $kain = Kain::whereNull('stok_lama')
+            ->orderBy('tgl_masuk', 'desc')
+            ->get();
 
         return view('kain.index', [
             'title'     => 'Kain',
+            'kain'      => $kain,
+            'supplier'  => Supplier::all(),
+        ]);
+    }
+
+    public function stoklama()
+    {
+        $kain = Kain::whereNotNull('stok_lama')
+            ->orderBy('tgl_masuk', 'desc')
+            ->get();
+
+        return view('kain.stoklama', [
+            'title'     => 'Kain Stok Lama',
             'kain'      => $kain,
             'supplier'  => Supplier::all(),
         ]);
@@ -82,6 +97,7 @@ class KainController extends Controller
             'tgl_masuk'     => 'required',
             'keterangan'    => 'nullable',
             'status'        => 'nullable',
+            'stok_lama'     => 'nullable',
             'supplier_id'   => 'required',
             'foto_kain'     => 'image|mimes:jpg,jpeg,png,bmp,gif,svg,webp',
         ]);
@@ -127,9 +143,11 @@ class KainController extends Controller
             'lot'           => 'nullable',
             'harga'         => 'nullable',
             'satuan'        => 'nullable',
+            'tgl_masuk'     => 'nullable',
             'lokasi'        => 'nullable',
             'keterangan'    => 'nullable',
             'status'        => 'nullable',
+            'stok_lama'     => 'nullable',
             'supplier_id'   => 'required',
             'foto_kain'     => 'nullable|image|mimes:jpg,jpeg,png,bmp,gif,svg,webp',
         ]);
@@ -207,6 +225,7 @@ class KainController extends Controller
 
     public function generateKainReport(Request $request)
     {
+        // dd($request);
         $request->validate([
             'start_date'    => 'required|date',
             'end_date'      => 'required|date|after_or_equal:start_date',
@@ -216,11 +235,17 @@ class KainController extends Controller
         $endDate = $request->input('end_date');
 
         $endDateTime = Carbon::parse($endDate)->endOfDay();
-
-        $kainReport = Kain::whereBetween('tgl_masuk', [
-            $startDate . ' 00:00:00',
-            $endDateTime
-        ])->orderBy('created_at')->get();
+        if ($request->stok_lama == "STOK LAMA") {
+            $kainReport = Kain::whereBetween('tgl_masuk', [
+                $startDate . ' 00:00:00',
+                $endDateTime
+            ])->whereNotNull('stok_lama')->orderBy('created_at')->get();
+        } else {
+            $kainReport = Kain::whereBetween('tgl_masuk', [
+                $startDate . ' 00:00:00',
+                $endDateTime
+            ])->whereNull('stok_lama')->orderBy('created_at')->get();
+        }
 
         return view('laporan.kain.report', [
             'title'         => 'Laporan Barang Masuk',
@@ -430,7 +455,10 @@ class KainController extends Controller
 
             // Count total ready Pcs for each color
             $item->warnas->each(function ($warna) {
-                $warna->total_ready_pcs = $warna->pcs->where('status', null)->count();
+                // Use filter instead of where to check for null status
+                $warna->total_ready_pcs = $warna->pcs->filter(function ($pc) {
+                    return is_null($pc->status);  // Check for null status explicitly
+                })->count();
             });
         });
 

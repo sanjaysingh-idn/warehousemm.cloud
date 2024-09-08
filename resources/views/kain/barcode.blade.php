@@ -143,7 +143,7 @@
 								@endphp
 
 								@foreach ($sortedWarnas as $item)
-									<div class="col-12">
+									<div class="col-6">
 										<div class="warna-item @if ($item->total_ready_pcs == 0) bg-success @endif">
 											<div class="warna-details">
 												{{-- <strong>{{ $item->nama_warna }}</strong>

@@ -35,7 +35,15 @@ class SopirController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        $attr = $request->validate([
+            'nama'          => 'required',
+            'kontak'        => 'required',
+        ]);
+
+        Sopir::create($attr);
+
+        return back()->with('message', 'Driver berhasil ditambah');
     }
 
     /**
@@ -80,6 +88,8 @@ class SopirController extends Controller
      */
     public function destroy(Sopir $sopir)
     {
-        //
+        $sopir = Sopir::findOrFail($sopir->id);
+        $sopir->delete();
+        return back()->with('message_delete', 'Sopir berhasil dihapus');
     }
 }

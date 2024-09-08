@@ -41,6 +41,19 @@
 									</div>
 								@enderror
 							</div>
+							<div class="col-sm-6 mb-3">
+								<label for="stok_lama" class="form-label">Stok Lama</label>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input @error('stok_lama') is-invalid @enderror" id="stok_lama"
+										name="stok_lama" value="STOK LAMA" {{ old('stok_lama') == 'STOK LAMA' ? 'checked' : '' }}>
+									<label class="form-check-label" for="stok_lama">Centang jika ini Stok Lama</label>
+								</div>
+								@error('stok_lama')
+									<div class="invalid-feedback">
+										{{ $message }}
+									</div>
+								@enderror
+							</div>
 						</div>
 				</div>
 				<div class="modal-footer">
