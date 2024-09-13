@@ -53,7 +53,7 @@
 			class="menu-item {{ request()->is('kain', 'kain/*') && !request()->is('kain/create', 'kain/keluar', 'kain/keluar/create') ? 'active open' : '' }}">
 			<a href="/kain" class="menu-link">
 				<i class='menu-icon tf-icons bx bxs-t-shirt'></i>
-				<div>Daftar Kain</div>
+				<div>Stok Terbaru</div>
 			</a>
 		</li>
 
@@ -69,7 +69,7 @@
 			class="menu-item {{ request()->is('packingList', 'packingList/*') && !request()->is('packingList/create', 'packingList/createManual') ? 'active open' : '' }}">
 			<a href="/packingList" class="menu-link">
 				<i class='menu-icon tf-icons bx bx-list-check'></i>
-				<div>Daftar Packing List</div>
+				<div>Barang Keluar</div>
 			</a>
 		</li>
 

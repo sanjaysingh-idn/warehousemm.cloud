@@ -109,9 +109,7 @@ class DriverController extends Controller
             'barang'        => 'nullable',
         ]);
 
-        $attr['update_by']   = Auth::user()->name;
-
-        $driver = Driver::findOrFail($driver->id);
+        // $attr['update_by']   = Auth::user()->name;
         $driver->update($attr);;
 
         return back()->with('message', 'Notebook Driver berhasil diubah');

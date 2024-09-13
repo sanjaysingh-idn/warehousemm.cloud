@@ -5,6 +5,15 @@
 		<h2 class="fw-bold"><span class="text-muted fw-light py-5"></span> {{ $title }} <i
 				class="bx bxs-truck fs-4 ms-2"></i>
 		</h2>
+		@if ($errors->any())
+			<div class="alert alert-danger">
+				<ul>
+					@foreach ($errors->all() as $error)
+						<li>{{ $error }}</li>
+					@endforeach
+				</ul>
+			</div>
+		@endif
 		<div class="col-sm-6 mb-2">
 			<div class="card">
 				<div class="card-header">
@@ -399,6 +408,28 @@
 										@endforeach
 									</select>
 									@error('mobil')
+										<div class="invalid-feedback">
+											{{ $message }}
+										</div>
+									@enderror
+								</div>
+
+								<div class="col-sm-12 mb-3">
+									<label for="tujuan" class="form-label">Tujuan</label>
+									<input class="form-control @error('tujuan') is-invalid @enderror" type="text" id="tujuan"
+										name="tujuan" value="{{ $item->tujuan }}" required />
+									@error('tujuan')
+										<div class="invalid-feedback">
+											{{ $message }}
+										</div>
+									@enderror
+								</div>
+
+								<div class="col-sm-12 mb-3">
+									<label for="barang" class="form-label">Barang</label>
+									<input class="form-control @error('barang') is-invalid @enderror" type="text" id="barang"
+										name="barang" value="{{ $item->barang }}" />
+									@error('barang')
 										<div class="invalid-feedback">
 											{{ $message }}
 										</div>
