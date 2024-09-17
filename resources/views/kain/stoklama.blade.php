@@ -85,6 +85,20 @@
 										<div class="card-footer">
 											<div class="row">
 												<div class="col-12 mb-2">
+													<a href="{{ route('kain.warna.list', ['kain' => $item->id]) }}" class="btn btn-xs btn-primary">
+														<i class="bx bx-color me-1"></i>
+														Daftar Warna
+													</a>
+
+													<a href="{{ route('kain.barcode', ['kain' => $item->id]) }}" target="_blank"
+														class="btn btn-xs btn-outline-primary">
+														<i class="bx bx-barcode me-1"></i>
+														Cetak Barcode
+													</a>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-12 mb-2">
 													<a href="{{ route('laporanPerKain', ['kain' => $item->id]) }}" target="_blank"
 														class="btn btn-xs btn-success">
 														<i class="bx bxs-file-pdf me-1"></i>
