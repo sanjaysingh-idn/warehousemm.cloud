@@ -61,6 +61,26 @@
 							</div>
 						</div>
 						<div class="row">
+							<div class="col-sm-12 mb-3">
+								<label for="kategori" class="form-label">Pilih Kategori</label>
+								<select id="kategori" class="form-select @error('kategori') is-invalid @enderror" name="kategori" required>
+									<option value="" hidden>--Pilih Kategori--</option>
+									<option value="New" {{ old('kategori') == 'New' ? 'selected' : '' }}>New</option>
+									<option value="Basic" {{ old('kategori') == 'Basic' ? 'selected' : '' }}>Basic</option>
+									<option value="Broclade&Tulle" {{ old('kategori') == 'Broclade&Tulle' ? 'selected' : '' }}>Broclade&Tulle
+									</option>
+									<option value="Gent" {{ old('kategori') == 'Gent' ? 'selected' : '' }}>Gent</option>
+									<option value="Ladys" {{ old('kategori') == 'Ladys' ? 'selected' : '' }}>Ladys</option>
+									<option value="Batik" {{ old('kategori') == 'Batik' ? 'selected' : '' }}>Batik</option>
+								</select>
+								@error('kategori')
+									<div class="invalid-feedback">
+										{{ $message }}
+									</div>
+								@enderror
+							</div>
+						</div>
+						<div class="row">
 							<div class="col-sm-6 mb-3">
 								<label for="tgl_masuk" class="form-label">Tanggal Masuk</label>
 								<input class="form-control @error('tgl_masuk') is-invalid @enderror" type="date" id="tgl_masuk"

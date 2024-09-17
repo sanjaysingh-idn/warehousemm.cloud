@@ -91,7 +91,8 @@ Route::middleware(['auth'])->group(function () {
 
     // PDF
     Route::get('/laporanTamu', [BukutamuController::class, 'laporan'])->name('laporanTamu');
-    Route::get('/stoklama', [KainController::class, 'stoklama'])->name('stoklama');
+    Route::get('/pilihkategori', [KainController::class, 'pilihkategori'])->name('pilihkategori');
+    Route::get('/stoklama/{kategori}', [KainController::class, 'stoklama'])->name('stoklama');
     Route::post('/laporanTamu/generate-report-tamu', [BukutamuController::class, 'generateTamuReport'])->name('laporanTamu.generate-report-tamu');
     Route::get('/generate-tamu-pdf', [BukutamuController::class, 'generateTamuReportPDF'])->name('generate-tamu-pdf');
     Route::get('/laporanKain', [KainController::class, 'laporan'])->name('laporanKain');

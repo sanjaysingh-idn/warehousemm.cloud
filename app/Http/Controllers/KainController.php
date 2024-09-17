@@ -63,14 +63,29 @@ class KainController extends Controller
         ]);
     }
 
-    public function stoklama()
+    // Method to display categories for selection
+    public function pilihkategori()
     {
-        $kain = Kain::whereNotNull('stok_lama')
+        // Define the categories available in the 'kategori' enum
+        $kategori = ['New', 'Basic', 'Broclade&Tulle', 'Gent', 'Ladys', 'Batik'];
+
+        return view('kain.pilihkategori', [
+            'title'     => 'Pilih Kategori',
+            'kategori'  => $kategori,
+        ]);
+    }
+
+    // Method to filter old stock based on the selected category
+    public function stoklama($kategori)
+    {
+        // Filter kain by kategori and where stok_lama is not null
+        $kain = Kain::where('kategori', $kategori)
+            ->whereNotNull('stok_lama')
             ->orderBy('tgl_masuk', 'desc')
             ->get();
 
         return view('kain.stoklama', [
-            'title'     => 'Kain Stok Lama',
+            'title'     => 'Kain Stok Lama >',
             'kain'      => $kain,
             'supplier'  => Supplier::all(),
         ]);
@@ -78,8 +93,10 @@ class KainController extends Controller
 
     public function create()
     {
+        $kategori = ['New', 'Basic', 'Broclade&Tulle', 'Gent', 'Ladys', 'Batik'];
         return view('kain.create', [
             'title'         => 'Formulir Barang Masuk',
+            'kategori'      => $kategori,
             'supplier'      => Supplier::all(),
         ]);
     }
@@ -97,6 +114,7 @@ class KainController extends Controller
             'tgl_masuk'     => 'required',
             'keterangan'    => 'nullable',
             'status'        => 'nullable',
+            'kategori'      => 'nullable',
             'stok_lama'     => 'nullable',
             'supplier_id'   => 'required',
             'foto_kain'     => 'image|mimes:jpg,jpeg,png,bmp,gif,svg,webp',
@@ -126,9 +144,12 @@ class KainController extends Controller
 
     public function edit($id)
     {
+        // Define the categories available in the 'kategori' enum
+        $kategori = ['New', 'Basic', 'Broclade&Tulle', 'Gent', 'Ladys', 'Batik'];
         return view('kain.edit', [
             'title'     => 'Edit Data Kain',
             'kain'      => Kain::findOrFail($id),
+            'kategori'  => $kategori,
             'supplier'  => Supplier::all(),
         ]);
     }
@@ -147,6 +168,7 @@ class KainController extends Controller
             'lokasi'        => 'nullable',
             'keterangan'    => 'nullable',
             'status'        => 'nullable',
+            'kategori'      => 'nullable',
             'stok_lama'     => 'nullable',
             'supplier_id'   => 'required',
             'foto_kain'     => 'nullable|image|mimes:jpg,jpeg,png,bmp,gif,svg,webp',

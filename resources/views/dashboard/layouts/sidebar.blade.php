@@ -59,7 +59,7 @@
 
 		<li
 			class="menu-item {{ request()->is('stoklama', 'stoklama/*') && !request()->is('stoklama/create', 'stoklama/keluar', 'stoklama/keluar/create') ? 'active open' : '' }}">
-			<a href="/stoklama" class="menu-link">
+			<a href="/pilihkategori" class="menu-link">
 				<i class='menu-icon tf-icons bx bxl-medium-old'></i>
 				<div>Kain Stok Lama</div>
 			</a>

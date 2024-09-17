@@ -77,6 +77,26 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-12 mb-3">
+								<label for="kategori" class="form-label">Pilih Kategori</label>
+								<select id="kategori" class="form-select @error('kategori') is-invalid @enderror" name="kategori" required>
+									<option value="" hidden>--Pilih Kategori--</option>
+									<option value="New" {{ old('kategori', $kain->kategori) == 'New' ? 'selected' : '' }}>New</option>
+									<option value="Basic" {{ old('kategori', $kain->kategori) == 'Basic' ? 'selected' : '' }}>Basic</option>
+									<option value="Broclade&Tulle" {{ old('kategori', $kain->kategori) == 'Broclade&Tulle' ? 'selected' : '' }}>
+										Broclade&Tulle</option>
+									<option value="Gent" {{ old('kategori', $kain->kategori) == 'Gent' ? 'selected' : '' }}>Gent</option>
+									<option value="Ladys" {{ old('kategori', $kain->kategori) == 'Ladys' ? 'selected' : '' }}>Ladys</option>
+									<option value="Batik" {{ old('kategori', $kain->kategori) == 'Batik' ? 'selected' : '' }}>Batik</option>
+								</select>
+								@error('kategori')
+									<div class="invalid-feedback">
+										{{ $message }}
+									</div>
+								@enderror
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12 mb-3">
 								<label for="nama_kain" class="form-label">Nama Kain</label>
 								<input class="form-control @error('nama_kain') is-invalid @enderror" type="text" id="nama_kain"
 									name="nama_kain" value="{{ $kain->nama_kain }}" />

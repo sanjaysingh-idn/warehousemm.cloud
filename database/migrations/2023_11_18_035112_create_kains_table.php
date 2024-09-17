@@ -32,6 +32,7 @@ class CreateKainsTable extends Migration
             $table->string('keterangan')->nullable();
             $table->string('stok_lama')->nullable();
             $table->integer('status')->nullable();
+            $table->enum('kategori', ['New', 'Basic', 'Broclade&Tulle', 'Gent', 'Ladys', 'Batik'])->default('New')->nullable();
             $table->timestamps();
         });
     }
