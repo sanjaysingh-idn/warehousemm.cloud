@@ -195,7 +195,7 @@ class KainController extends Controller
 
         $kain->update($attr);
 
-        return redirect('/kain')->with('message', 'Data Kain berhasil diubah');
+        return redirect('/pilihkategori')->with('message', 'Data Kain berhasil diubah');
     }
 
     public function destroy($id)
@@ -476,13 +476,20 @@ class KainController extends Controller
         // Sort the 'warnas' by 'nama_warna'
         $kain->warnas = $kain->warnas->sortBy('nama_warna');
 
-        // Iterate through each 'warna' and count the total_ready_pcs
+        // Iterate through each 'warna' and filter pcs based on total_pcs
         foreach ($kain->warnas as $warna) {
-            // Count pcs with null status
+            // Check if total_pcs is null and set a flag or property
+            $warna->is_empty = is_null($warna->total_pcs) || $warna->total_pcs === 0;
+
+            // Filter pcs where status is null and count them
             $warna->total_ready_pcs = $warna->pcs->whereNull('status')->count();
+
+            // Keep only the pcs with null status in the 'pcs' collection
+            $warna->pcs = $warna->pcs->whereNull('status');
         }
 
-        // dd($kain);
+        // dd($kain); // You can check the $kain object structure here
+
         return view('kain.barcode', [
             'title'         => 'Barcode Data Kain',
             'titleReport'   => 'Barcode Kain ' . $kain->nama_kain,

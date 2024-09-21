@@ -30,7 +30,7 @@
 	<div class="row">
 		<h2 class="fw-bold"><span class="text-muted fw-light py-5"></span> {{ $title }}</h2>
 		<div class="col-12">
-			<a href="/kain" class="btn btn-secondary"><i class="bx bx-left-arrow-circle"></i> Kembali</a>
+			<a href="/pilihkategori" class="btn btn-secondary"><i class="bx bx-left-arrow-circle"></i> Kembali</a>
 			<div class="card mb-3 mt-2">
 				<div class="card-body">
 					<div class="row">
