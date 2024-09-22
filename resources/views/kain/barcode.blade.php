@@ -8,136 +8,163 @@
 		<title>{{ $title }} - WMS Mac Mohan</title>
 
 		<style>
-			/* Flexbox container for horizontal layout */
-			.flex-container {
-				display: flex;
-				flex-wrap: wrap;
-				/* Ensure items wrap when they reach the end of the row */
-				justify-content: space-between;
-				/* Add spacing between items */
-				gap: 10px;
-				/* Space between items */
+			/* Basic table styling */
+			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+
+			/* Table cells styling */
+			td {
+				width: 50%;
+				vertical-align: top;
 				padding: 10px;
 				box-sizing: border-box;
 			}
 
-			/* Each flex item */
-			.flex-item {
-				width: 48%;
-				/* Two items per row */
-				padding: 10px;
-				/* border: 1px solid #ddd; */
-				border-radius: 5px;
-				box-sizing: border-box;
-			}
-
-			/* Flex styling for items inside */
+			/* QR code and text layout inside each flex-item */
 			.pcs-item {
 				display: flex;
-				margin-bottom: 5px;
 				align-items: center;
+				margin-bottom: 10px;
+				border: 1px solid #ddd;
+				border-radius: 5px;
+				padding: 10px;
 			}
 
 			.pcs-qrcode {
 				margin-right: 20px;
 			}
 
-			/* Print styling */
+			/* Print-specific styling */
 			@media print {
-				body {
-					width: 210mm;
-					height: 297mm;
-					margin: 0;
-					padding: 10mm;
-					box-sizing: border-box;
-				}
-
-				.flex-item {
-					page-break-inside: avoid;
-					width: 48%;
-				}
-
 				@page {
 					size: A4;
 					margin: 10mm;
 				}
-			}
 
-			.pcs-item {
-				padding: 10px;
-				border: 1px solid #ddd;
-				margin-bottom: 10px;
-				border-radius: 5px;
-				display: flex;
-				align-items: center;
-			}
+				td {
+					page-break-inside: avoid;
+					/* Ensure each column item doesn't break */
+				}
 
-			/* Style for items with null status */
-			.pcs-item.empty-status {
-				background-color: #ff0000;
-				/* Light red background for null status */
-				border-color: #ff0000;
-				/* Red border for visibility */
+				/* Prevent page break after h2 */
+				h2 {
+					page-break-after: avoid;
+				}
 			}
 		</style>
 	</head>
 
 	<body>
-		<h2>{{ $kain->nama_kain }}</h2>
+		<!-- Adding margin-bottom to push content closer to the title -->
+		<h2 style="margin-bottom: 10px;">{{ $kain->nama_kain }}</h2>
 
-		<div class="flex-container">
-			@php
-				$sortedWarnas = $kain->warnas->sortBy(function ($item) {
-				    return intval(preg_replace('/[^0-9]+/', '', $item->nama_warna));
-				});
-			@endphp
+		@php
+			$sortedWarnas = $kain->warnas->sortBy(function ($item) {
+			    return intval(preg_replace('/[^0-9]+/', '', $item->nama_warna));
+			});
 
-			@foreach ($sortedWarnas as $item)
-				@if ($item->total_ready_pcs > 0)
-					<!-- Only show if total_ready_pcs is greater than 0 -->
-					<div class="flex-item">
-						<strong>{{ $item->nama_warna }}</strong><br>
-						<span>{{ $item->total_ready_pcs }} Pcs Ready</span><br>
+			// Split warnas into two groups for left and right columns
+			$half = ceil($sortedWarnas->count() / 2);
+			$leftColumn = $sortedWarnas->slice(0, $half);
+			$rightColumn = $sortedWarnas->slice($half);
+		@endphp
 
-						<div class="warna-pcs">
-							@foreach ($item->pcs as $pcs)
-								@if (is_null($pcs->status))
-									<!-- Show only pcs with null status -->
-									@php
-										$qrCodeData =
-										    "\nID Kain: " .
-										    $kain->id .
-										    '-' .
-										    $kain->supplier->nama_supplier .
-										    "\nNama Kain: " .
-										    $kain->nama_kain .
-										    "\nKode Desain: " .
-										    $kain->kode_desain .
-										    "\nWarna: " .
-										    $item->nama_warna .
-										    "\nYard: " .
-										    $pcs->yard;
-									@endphp
+		<!-- Table for two columns layout -->
+		<table>
+			<tr>
+				<td>
+					<!-- Left Column Content -->
+					@foreach ($leftColumn as $item)
+						@if ($item->total_ready_pcs > 0)
+							<strong>{{ $item->nama_warna }}</strong><br>
+							<span>{{ $item->total_ready_pcs }} Pcs Ready</span><br>
 
-									<div class="pcs-item">
-										<div class="pcs-qrcode">
-											{!! QrCode::size(100)->generate($qrCodeData) !!}
+							<div class="warna-pcs">
+								@foreach ($item->pcs as $pcs)
+									@if (is_null($pcs->status))
+										<!-- Show only pcs with null status -->
+										@php
+											$qrCodeData =
+											    "\nID Kain: " .
+											    $kain->id .
+											    '-' .
+											    $kain->supplier->nama_supplier .
+											    "\nNama Kain: " .
+											    $kain->nama_kain .
+											    "\nKode Desain: " .
+											    $kain->kode_desain .
+											    "\nWarna: " .
+											    $item->nama_warna .
+											    "\nYard: " .
+											    $pcs->yard;
+										@endphp
+
+										<div class="pcs-item">
+											<div class="pcs-qrcode">
+												{!! QrCode::size(100)->generate($qrCodeData) !!}
+											</div>
+											<div>
+												<div><strong>{{ $kain->nama_kain }}</strong></div>
+												<div>{{ $kain->kode_desain }}</div>
+												<div>Col: {{ $item->nama_warna }}</div>
+												<div>Yard: {{ $pcs->yard }}</div>
+											</div>
 										</div>
-										<div>
-											<div><strong>{{ $kain->nama_kain }}</strong></div>
-											<div>{{ $kain->kode_desain }}</div>
-											<div>Col: {{ $item->nama_warna }}</div>
-											<div>Yard: {{ $pcs->yard }}</div>
-										</div>
-									</div>
-								@endif
-							@endforeach
-						</div>
-					</div>
-				@endif
-			@endforeach
+									@endif
+								@endforeach
+							</div>
+						@endif
+					@endforeach
+				</td>
 
-		</div>
+				<td>
+					<!-- Right Column Content -->
+					@foreach ($rightColumn as $item)
+						@if ($item->total_ready_pcs > 0)
+							<strong>{{ $item->nama_warna }}</strong><br>
+							<span>{{ $item->total_ready_pcs }} Pcs Ready</span><br>
+
+							<div class="warna-pcs">
+								@foreach ($item->pcs as $pcs)
+									@if (is_null($pcs->status))
+										<!-- Show only pcs with null status -->
+										@php
+											$qrCodeData =
+											    "\nID Kain: " .
+											    $kain->id .
+											    '-' .
+											    $kain->supplier->nama_supplier .
+											    "\nNama Kain: " .
+											    $kain->nama_kain .
+											    "\nKode Desain: " .
+											    $kain->kode_desain .
+											    "\nWarna: " .
+											    $item->nama_warna .
+											    "\nYard: " .
+											    $pcs->yard;
+										@endphp
+
+										<div class="pcs-item">
+											<div class="pcs-qrcode">
+												{!! QrCode::size(100)->generate($qrCodeData) !!}
+											</div>
+											<div>
+												<div><strong>{{ $kain->nama_kain }}</strong></div>
+												<div>{{ $kain->kode_desain }}</div>
+												<div>Col: {{ $item->nama_warna }}</div>
+												<div>Yard: {{ $pcs->yard }}</div>
+											</div>
+										</div>
+									@endif
+								@endforeach
+							</div>
+						@endif
+					@endforeach
+				</td>
+			</tr>
+		</table>
 	</body>
 
 </html>
