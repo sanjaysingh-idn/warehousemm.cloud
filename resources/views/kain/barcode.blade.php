@@ -26,7 +26,7 @@
 				width: 48%;
 				/* Two items per row */
 				padding: 10px;
-				border: 1px solid #ddd;
+				/* border: 1px solid #ddd; */
 				border-radius: 5px;
 				box-sizing: border-box;
 			}
