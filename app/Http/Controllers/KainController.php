@@ -81,7 +81,7 @@ class KainController extends Controller
         // Filter kain by kategori and where stok_lama is not null
         $kain = Kain::where('kategori', $kategori)
             ->whereNotNull('stok_lama')
-            ->orderBy('tgl_masuk', 'desc')
+            ->orderBy('nama_kain', 'asc')
             ->get();
 
         return view('kain.stoklama', [
@@ -435,7 +435,7 @@ class KainController extends Controller
             'status' => $request->status,
         ]);
 
-        return Redirect::to('/kain')->with('message', 'Kain berhasil diupdate');
+        return Redirect::to('/pilihkategori')->with('message', 'Kain berhasil diupdate');
     }
 
     public function searchById(Request $request)

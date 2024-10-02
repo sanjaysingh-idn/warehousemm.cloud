@@ -30,13 +30,27 @@
 					<div class=" text-nowrap">
 						<table id="table" class="table table-hover w-100" style="width: 100%">
 							<caption class="ms-4">
-								Total Pcs: <strong>{{ $kain->warnas->sum(function ($warna) {return $warna->total_pcs;}) }}</strong>
+								@php
+									$totalReadyPcs = 0;
+									$warnaCount = 0;
+
+									foreach ($kain->warnas as $item) {
+									    $totalReadyPcs += $item->total_ready_pcs;
+
+									    if ($item->total_ready_pcs > 0) {
+									        $warnaCount++;
+									    }
+									}
+								@endphp
+								<span class="badge bg-primary">
+									<h4 class="pt-3 px-3 text-white">Total Pcs Ready: <strong>{{ $totalReadyPcs }} Pcs</strong></h4>
+								</span>
 								<br>
-								@if ($kain->satuan == 'Y')
+								{{-- @if ($kain->satuan == 'Y')
 									Total Yard: <strong> {{ $kain->warnas->sum(function ($warna) {return $warna->pcs->sum('yard');}) }}</strong>
 								@elseif ($kain->satuan == 'M')
 									Total Meter: <strong> {{ $kain->warnas->sum(function ($warna) {return $warna->pcs->sum('yard');}) }}</strong>
-								@endif
+								@endif --}}
 							</caption>
 							<thead class="bg-dark mt-5">
 								<tr>

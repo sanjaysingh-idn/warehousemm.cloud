@@ -67,11 +67,15 @@
 					<div class="">
 						<div class="row mb-5">
 							@foreach ($kain as $index => $item)
-								<div class="col-md-4 col-lg-3 mb-3">
-									<div class="card h-100 shadow border border-2 border-danger">
+								<div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+									<div
+										class="card h-100 shadow border border-2 border-danger @if ($item->status == 1) bg-dark text-white @endif">
 										<img class="card-img-top" src="{{ asset('storage/' . $item->foto_kain) }}" alt="{{ $item->nama_kain }}" />
 										<div class="card-body">
-											<h6 class="card-title">{{ $item->nama_kain }}</h6>
+											<h6 class="card-title @if ($item->status == 1) text-white @endif">{{ $item->nama_kain }} @if ($item->status == 1)
+													(STOK HABIS)
+												@endif
+											</h6>
 											<small>
 												@if ($item->kode_desain)
 													<strong>{{ $item->kode_desain }}</strong>
