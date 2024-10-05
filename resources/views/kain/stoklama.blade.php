@@ -67,79 +67,64 @@
 					<div class="">
 						<div class="row mb-5">
 							@foreach ($kain as $index => $item)
-								<div class="col-sm-6 col-md-4 col-lg-3 mb-3">
-									<div
-										class="card h-100 shadow border border-2 border-danger @if ($item->status == 1) bg-dark text-white @endif">
-										<img class="card-img-top" src="{{ asset('storage/' . $item->foto_kain) }}" alt="{{ $item->nama_kain }}" />
-										<div class="card-body">
-											<h6 class="card-title @if ($item->status == 1) text-white @endif">{{ $item->nama_kain }} @if ($item->status == 1)
-													(STOK HABIS)
-												@endif
-											</h6>
-											<small>
-												@if ($item->kode_desain)
-													<strong>{{ $item->kode_desain }}</strong>
-												@endif
-											</small>
-											<p class="card-text">
+								<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+									<div class="card h-100 shadow-lg border-1 {{ $item->status == 1 ? 'bg-dark text-white' : '' }}">
+										<!-- Fancybox image trigger -->
+										<a href="{{ asset('storage/' . $item->foto_kain) }}" data-fancybox="gallery"
+											data-caption="{{ $item->nama_kain }}">
+											<img class="card-img-top img-fluid" src="{{ asset('storage/' . $item->foto_kain) }}"
+												alt="{{ $item->nama_kain }}" style="height: auto; max-height: 250px; width: 100%; object-fit: contain;">
+										</a>
+										<div class="card-body d-flex flex-column pb-0">
+											<h5 class="card-title mb-1 {{ $item->status == 1 ? 'text-white' : '' }}">{{ $item->nama_kain }}</h5>
+											@if (!empty($item->kode_desain) && $item->kode_desain !== '-')
+												<small class="text-muted mb-2">{{ $item->kode_desain }}</small>
+											@endif
 
-											</p>
+											@if ($item->status == 1)
+												<span class="badge bg-danger">STOK HABIS</span>
+											@endif
+
+											<div class="mt-auto">
+												<a href="{{ route('kain.warna.list', ['kain' => $item->id]) }}" class="btn btn-primary btn-sm mt-2">
+													<i class="bx bx-color me-1"></i> Daftar Warna
+												</a>
+												<a href="{{ route('kain.barcode', ['kain' => $item->id]) }}" target="_blank"
+													class="btn btn-outline-primary btn-sm mt-2">
+													<i class="bx bx-barcode me-1"></i> Cetak Barcode
+												</a>
+											</div>
 										</div>
 										<hr>
-										<div class="card-footer">
-											<div class="row">
-												<div class="col-12 mb-2">
-													<a href="{{ route('kain.warna.list', ['kain' => $item->id]) }}" class="btn btn-xs btn-primary">
-														<i class="bx bx-color me-1"></i>
-														Daftar Warna
-													</a>
-
-													<a href="{{ route('kain.barcode', ['kain' => $item->id]) }}" target="_blank"
-														class="btn btn-xs btn-outline-primary">
-														<i class="bx bx-barcode me-1"></i>
-														Cetak Barcode
-													</a>
-												</div>
+										<div class="card-footer bg-transparent border-0">
+											<div class="d-flex justify-content-between">
+												<a href="{{ route('laporanPerKain', ['kain' => $item->id]) }}" target="_blank"
+													class="btn btn-success btn-sm">
+													<i class="bx bxs-file-pdf me-1"></i> Cetak Laporan
+												</a>
+												<a href="{{ route('kain.edit', ['kain' => $item->id]) }}" class="btn btn-warning btn-sm">
+													<i class="bx bx-edit-alt me-1"></i> Edit
+												</a>
 											</div>
-											<div class="row">
-												<div class="col-12 mb-2">
-													<a href="{{ route('laporanPerKain', ['kain' => $item->id]) }}" target="_blank"
-														class="btn btn-xs btn-success">
-														<i class="bx bxs-file-pdf me-1"></i>
-														Cetak Laporan
-													</a>
 
-													<a href="{{ route('kain.edit', ['kain' => $item->id]) }}" class="btn btn-xs btn-warning">
-														<i class="bx bx-edit-alt me-1"></i>
-														Edit
-													</a>
-												</div>
-												<div class="col-12">
-
-													<button class="btn btn-xs btn-info" data-bs-toggle="modal"
-														data-bs-target="#modalDetail{{ $item->id }}">
-														<i class="bx bx-info-circle me-1"></i>
-														Info
-													</button>
-
-													<button class="btn btn-xs btn-dark" data-bs-toggle="modal"
-														data-bs-target="#modalStatus{{ $item->id }}">
-														<i class="bx bx-stats me-1"></i>
-														Status
-													</button>
-
-													<button class="btn btn-xs btn-danger" data-bs-toggle="modal"
-														data-bs-target="#modalDelete{{ $item->id }}">
-														<i class="bx bx-trash me-1"></i>
-														Delete
-													</button>
-												</div>
+											<div class="d-flex justify-content-between mt-2">
+												<button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalDetail{{ $item->id }}">
+													<i class="bx bx-info-circle me-1"></i> Info
+												</button>
+												<button class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#modalStatus{{ $item->id }}">
+													<i class="bx bx-stats me-1"></i> Status
+												</button>
+												<button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+													data-bs-target="#modalDelete{{ $item->id }}">
+													<i class="bx bx-trash me-1"></i> Delete
+												</button>
 											</div>
 										</div>
 									</div>
 								</div>
 							@endforeach
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -331,6 +316,19 @@
 @endpush
 
 @push('scripts')
+	<script>
+		Fancybox.bind("[data-fancybox='gallery']", {
+			// // Optional settings here
+			// infinite: true, // Loop through images
+			// keyboard: true, // Enable keyboard navigation
+			// buttons: [
+			// 	"zoom",
+			// 	"slideShow",
+			// 	"thumbs",
+			// 	"close"
+			// ]
+		});
+	</script>
 	<script>
 		function updateStatus(itemId) {
 			// Get form data
