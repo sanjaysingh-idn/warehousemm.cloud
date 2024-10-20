@@ -58,7 +58,7 @@
 
 	<body>
 		<!-- Adding margin-bottom to push content closer to the title -->
-		<h2 style="margin-bottom: 10px;">{{ $kain->nama_kain }}</h2>
+		<h2 style="margin-bottom: 10px;">{{ $kain->nama_kain }} </h2>
 
 		@php
 			$sortedWarnas = $kain->warnas->sortBy(function ($item) {
@@ -98,7 +98,7 @@
 											    "\nWarna: " .
 											    $item->nama_warna .
 											    "\nYard: " .
-											    $pcs->yard;
+											    ($pcs->yard == 1 ? 'no yard' : $pcs->yard);
 										@endphp
 
 										<div class="pcs-item">
@@ -109,7 +109,7 @@
 												<div><strong>{{ $kain->nama_kain }}</strong></div>
 												<div>{{ $kain->kode_desain }}</div>
 												<div>Col: {{ $item->nama_warna }}</div>
-												<div>Yard: {{ $pcs->yard }}</div>
+												<div>Yard: {{ $pcs->yard == 1 ? 'no yard' : $pcs->yard }}</div>
 											</div>
 										</div>
 									@endif
@@ -143,7 +143,7 @@
 											    "\nWarna: " .
 											    $item->nama_warna .
 											    "\nYard: " .
-											    $pcs->yard;
+											    ($pcs->yard == 1 ? 'no yard' : $pcs->yard);
 										@endphp
 
 										<div class="pcs-item">
@@ -154,7 +154,7 @@
 												<div><strong>{{ $kain->nama_kain }}</strong></div>
 												<div>{{ $kain->kode_desain }}</div>
 												<div>Col: {{ $item->nama_warna }}</div>
-												<div>Yard: {{ $pcs->yard }}</div>
+												<div>Yard: {{ $pcs->yard == 1 ? 'no yard' : $pcs->yard }}</div>
 											</div>
 										</div>
 									@endif

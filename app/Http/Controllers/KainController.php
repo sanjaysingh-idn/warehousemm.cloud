@@ -491,7 +491,7 @@ class KainController extends Controller
         // dd($kain); // You can check the $kain object structure here
 
         return view('kain.barcode', [
-            'title'         => 'Barcode Data Kain',
+            'title'         => 'Barcode Data Kain kegd',
             'titleReport'   => 'Barcode Kain ' . $kain->nama_kain,
             'kain'          => $kain,
         ]);
